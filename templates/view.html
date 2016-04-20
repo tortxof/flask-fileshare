@@ -1,4 +1,12 @@
 {% extends 'layout.html' %}
 {% block body %}
-<a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key }}">{{ args.key }}</a>
+<p>
+  <a href="/">Upload another file.</a>
+</p>
+<p>
+  <a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key }}">
+    https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key }}
+  </a>
+</p>
+
 {% endblock %}

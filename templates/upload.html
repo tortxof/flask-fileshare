@@ -1,6 +1,6 @@
 {% extends 'layout.html' %}
 {% block body %}
-<form class="" action="{{ post.url }}" method="post" enctype="multipart/form-data">
+<form action="{{ post.url }}" method="post" enctype="multipart/form-data">
   {% for k, v in post.fields.items() %}
   <input type="hidden" name="{{ k }}" value="{{ v }}">
   {% endfor %}
