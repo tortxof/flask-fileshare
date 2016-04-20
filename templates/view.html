@@ -1,0 +1,4 @@
+{% extends 'layout.html' %}
+{% block body %}
+<a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key }}">{{ args.key }}</a>
+{% endblock %}

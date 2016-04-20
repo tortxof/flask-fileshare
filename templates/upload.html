@@ -1,6 +1,10 @@
 {% extends 'layout.html' %}
 {% block body %}
-<form class="" action="index.html" method="post">
-
+<form class="" action="{{ post.url }}" method="post" enctype="multipart/form-data">
+  {% for k, v in post.fields.items() %}
+  <input type="hidden" name="{{ k }}" value="{{ v }}">
+  {% endfor %}
+  <input type="file" name="file">
+  <button type="submit">Upload</button>
 </form>
 {% endblock %}
