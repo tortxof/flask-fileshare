@@ -1,6 +1,5 @@
 import os
 import base64
-import datetime
 
 from flask import Flask, render_template, request
 import boto3

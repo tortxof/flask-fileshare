@@ -10,8 +10,8 @@
 
 {% if args %}
 <p>
-  <a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key }}">
-    {{ args.key }}
+  <a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key|urlencode() }}">
+    {{ args.key|urlencode() }}
   </a>
 </p>
 {% endif %}
