@@ -20,6 +20,7 @@ app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
 @app.route('/')
 def upload():
+    args = request.args.to_dict()
     key = base64.urlsafe_b64encode(os.urandom(6)).decode()
     s3 = boto3.client(
         's3',
@@ -31,7 +32,7 @@ def upload():
         Key = key + '/${filename}',
         Fields = {
             'acl': 'public-read',
-            'success_action_redirect': '{0}/view'.format(app.config['APP_URL'])
+            'success_action_redirect': '{0}/'.format(app.config['APP_URL'])
             },
         Conditions = [
             {'acl': 'public-read'},
@@ -39,12 +40,7 @@ def upload():
             ],
         ExpiresIn = 600
         )
-    return render_template('upload.html', post=post)
-
-@app.route('/view')
-def view_file():
-    args = request.args.to_dict()
-    return render_template('view.html', args=args)
+    return render_template('upload.html', post=post, args=args)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
