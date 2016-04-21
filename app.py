@@ -35,7 +35,8 @@ def upload():
             },
         Conditions = [
             {'acl': 'public-read'},
-            ['starts-with', '$success_action_redirect', app.config['APP_URL']]
+            ['starts-with', '$success_action_redirect', app.config['APP_URL']],
+            ['starts-with', '$Content-Type', ''],
             ],
         ExpiresIn = 600
         )
