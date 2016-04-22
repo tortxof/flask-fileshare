@@ -1,5 +1,6 @@
 import os
 import base64
+import operator
 
 from flask import Flask, render_template, request
 import boto3
@@ -41,6 +42,25 @@ def upload():
         ExpiresIn = 600
         )
     return render_template('upload.html', post=post, args=args)
+
+@app.route('/list')
+def list_objects():
+    s3 = boto3.client(
+        's3',
+        aws_access_key_id = app.config['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
+        )
+    objects = s3.list_objects(
+        Bucket = app.config['S3_BUCKET'],
+        EncodingType='url',
+        )
+    objects = objects.get('Contents')
+    objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
+    return render_template(
+        'list.html',
+        bucket=app.config['S3_BUCKET'],
+        objects=objects
+        )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')

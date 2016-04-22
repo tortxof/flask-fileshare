@@ -1,0 +1,12 @@
+{% extends 'layout.html' %}
+{% block body %}
+<ul>
+  {% for i in objects %}
+    <li>
+      <a href="https://s3.amazonaws.com/{{ bucket }}/{{ i.Key }}">
+        {{ i.Key }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}
