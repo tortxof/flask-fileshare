@@ -12,11 +12,11 @@ docker build --pull -t tortxof/flask-fileshare https://github.com/tortxof/flask-
 
 ## Run a container.
 
-docker run -d --restart always --name file.example.com \
-  -e SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
-  -e APP_URL=https://file.example.com \
-  -e S3_BUCKET=example-bucket-name \
-  -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
-  -e AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
-  -p 5000:5000 \
-  tortxof/flask-fileshare
+    docker run -d --restart always --name file.example.com \
+      -e SECRET_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+      -e APP_URL=https://file.example.com \
+      -e S3_BUCKET=example-bucket-name \
+      -e AWS_ACCESS_KEY_ID=XXXXXXXXXXXXXXXXXXXX \
+      -e AWS_SECRET_ACCESS_KEY=XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX \
+      -p 5000:5000 \
+      tortxof/flask-fileshare
