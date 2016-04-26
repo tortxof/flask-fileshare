@@ -6,6 +6,9 @@
       <a href="https://s3.amazonaws.com/{{ bucket }}/{{ i.Key }}">
         {{ i.Key }}
       </a>
+      <button class="copy-button" data-clipboard-text="https://s3.amazonaws.com/{{ bucket }}/{{ i.Key }}">
+        Copy Link
+      </button>
     </li>
   {% endfor %}
 </ul>
