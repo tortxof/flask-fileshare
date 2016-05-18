@@ -1,4 +1,3 @@
-var upload_form = document.getElementById('upload_form');
 var content_type_input = document.getElementById('content_type_input')
 var file_input = document.getElementById('file_input');
 
