@@ -50,12 +50,21 @@ def list_objects():
         aws_access_key_id = app.config['AWS_ACCESS_KEY_ID'],
         aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
         )
-    objects = s3.list_objects(
+    objects = s3.list_objects_v2(
         Bucket = app.config['S3_BUCKET'],
-        EncodingType='url',
-        )
-    objects = objects.get('Contents')
+        ).get('Contents')
     objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
+    objects = [
+        {
+            'key': i['Key'],
+            'size': i['Size'],
+            'content_type': s3.head_object(
+                Bucket = app.config['S3_BUCKET'],
+                Key = i['Key']
+                ).get('ContentType')
+        }
+        for i in objects
+    ]
     return render_template(
         'list.html',
         bucket=app.config['S3_BUCKET'],
