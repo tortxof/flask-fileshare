@@ -10,4 +10,9 @@ if (file_input) {
   });
 }
 
+var filesize_elems = document.getElementsByClassName('filesize');
+for (var i=0; i<filesize_elems.length; i++) {
+  filesize_elems[i].textContent = 'Size: ' + filesize(filesize_elems[i].dataset.filesize);
+}
+
 var clipboard = new Clipboard('.copy-button');
