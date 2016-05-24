@@ -1,4 +1,5 @@
 body {
+  margin: 0;
   font-family: sans-serif;
   background-color: #347;
   color: white;
@@ -8,8 +9,45 @@ a {
   color: white;
 }
 
+ul {
+  padding: 0;
+  margin: 0 1ch;
+}
+
 li {
   margin: 1em 0;
+  list-style-type: none;
+}
+
+li a {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+nav {
+  background-color: rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+nav ul {
+  list-style: none;
+  width: 320px;
+  padding: 0;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-around;
+}
+
+nav li {
+  display: block;
+  margin: 0;
+}
+
+nav a {
+  display: block;
+  text-decoration: none;
+  padding: 1em;
 }
 
 .container {
@@ -25,4 +63,8 @@ li {
 
 .copy-button {
   display: block;
+}
+
+#file_input {
+  width: 100%;
 }

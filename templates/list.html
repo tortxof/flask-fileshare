@@ -9,6 +9,7 @@
       <button class="copy-button" data-clipboard-text="https://s3.amazonaws.com/{{ bucket }}/{{ i.Key }}">
         Copy Link
       </button>
+      <div class="filesize" data-filesize="">Size: {{ i.Size }}</div>
     </li>
   {% endfor %}
 </ul>
