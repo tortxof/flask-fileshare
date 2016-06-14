@@ -41,7 +41,7 @@ def upload():
             ],
         ExpiresIn = 600
         )
-    return render_template('upload.html', post=post, args=args)
+    return render_template('upload.html', post=post, args=args), 200, {'Access-Control-Allow-Origin': '*'}
 
 @app.route('/list')
 def list_objects():

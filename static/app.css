@@ -50,6 +50,10 @@ nav a {
   padding: 1em;
 }
 
+progress {
+  width: 100%;
+}
+
 .container {
   width: 320px;
   margin: 1em auto;
