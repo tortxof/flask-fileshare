@@ -12,7 +12,7 @@ if (file_input) {
 
     xhr.upload.addEventListener('progress', function(event) {
       if (event.lengthComputable) {
-        upload_status.innerHTML = 'Uploading...';
+        upload_status.innerHTML = 'Uploading ' + filesize(event.loaded) + ' / ' + filesize(event.total);
         progress_bar.value = event.loaded;
         progress_bar.max = event.total;
       }
