@@ -12,8 +12,6 @@ if (file_input) {
 
     xhr.upload.addEventListener('progress', function(event) {
       if (event.lengthComputable) {
-        var percentComplete = Math.floor((event.loaded / event.total) * 100);
-        console.log(percentComplete);
         upload_status.innerHTML = 'Uploading...';
         progress_bar.value = event.loaded;
         progress_bar.max = event.total;
@@ -22,10 +20,9 @@ if (file_input) {
 
     xhr.addEventListener('loadend', function(event) {
       upload_status.innerHTML = 'Upload Complete';
-      console.log(xhr);
-      console.log(xhr.upload);
-      console.log(event);
-      console.log(this);
+      var s3_key = document.getElementsByName('key')[0].value.split('/')[0] + '/' + file_input.files[0].name;
+      var s3_bucket = upload_form.action.split('://')[1].split('.')[0]
+      window.location.search = 'key=' + s3_key + '&bucket=' + s3_bucket;
     });
 
     xhr.open('POST', upload_form.action, true);

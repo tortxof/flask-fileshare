@@ -8,6 +8,10 @@
   <input id="file_input" type="file" name="file">
 </form>
 
+<p id="upload_status"></p>
+
+<progress id="progress_bar" value="0" max="100"></progress>
+
 {% if args %}
 <p>
   <a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key|urlencode() }}">
@@ -18,10 +22,6 @@
   </button>
 </p>
 {% endif %}
-
-<p id="upload_status"></p>
-
-<progress id="progress_bar" value="0" max="100"></progress>
 
 <p>Files are deleted after 14 days.</p>
 {% endblock %}
