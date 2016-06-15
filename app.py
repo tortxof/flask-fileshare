@@ -18,58 +18,63 @@ app.config['S3_BUCKET'] = os.environ.get('S3_BUCKET')
 app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('AWS_ACCESS_KEY_ID')
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('AWS_SECRET_ACCESS_KEY')
 
-@app.route('/')
-def upload():
-    args = request.args.to_dict()
-    key = base64.urlsafe_b64encode(os.urandom(6)).decode()
-    s3 = boto3.client(
+def get_s3_client():
+    return boto3.client(
         's3',
         aws_access_key_id = app.config['AWS_ACCESS_KEY_ID'],
         aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
-        )
-    post = s3.generate_presigned_post(
+    )
+
+def gen_signed_post(s3_client):
+    return s3_client.generate_presigned_post(
         Bucket = app.config['S3_BUCKET'],
-        Key = key + '/${filename}',
+        Key = base64.urlsafe_b64encode(os.urandom(6)).decode() + '/${filename}',
         Fields = {
             'acl': 'public-read',
             'success_action_redirect': '{0}/'.format(app.config['APP_URL'])
-            },
+        },
         Conditions = [
             {'acl': 'public-read'},
             ['starts-with', '$success_action_redirect', app.config['APP_URL']],
             ['starts-with', '$Content-Type', ''],
-            ],
+        ],
         ExpiresIn = 600
-        )
-    return render_template('upload.html', post=post, args=args), 200, {'Access-Control-Allow-Origin': '*'}
+    )
+
+@app.route('/')
+def upload():
+    args = request.args.to_dict()
+    s3 = get_s3_client()
+    post = gen_signed_post(s3)
+    return (
+        render_template('upload.html', post=post, args=args),
+        200,
+        {'Access-Control-Allow-Origin': '*'}
+    )
 
 @app.route('/list')
 def list_objects():
-    s3 = boto3.client(
-        's3',
-        aws_access_key_id = app.config['AWS_ACCESS_KEY_ID'],
-        aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
-        )
+    s3 = get_s3_client()
     objects = s3.list_objects_v2(
         Bucket = app.config['S3_BUCKET'],
-        ).get('Contents')
+    ).get('Contents')
     objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
     objects = [
         {
-            'key': i['Key'],
-            'size': i['Size'],
+            'key': obj['Key'],
+            'size': obj['Size'],
             'content_type': s3.head_object(
                 Bucket = app.config['S3_BUCKET'],
-                Key = i['Key']
+                Key = obj['Key']
                 ).get('ContentType')
         }
-        for i in objects
+        for obj in objects
     ]
     return render_template(
         'list.html',
         bucket=app.config['S3_BUCKET'],
         objects=objects
-        )
+    )
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
