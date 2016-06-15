@@ -1,11 +1,11 @@
-var content_type_input = document.getElementById('content_type_input')
+var content_type_input = document.getElementById('content_type_input');
 var file_input = document.getElementById('file_input');
 var upload_form = document.getElementById('upload_form');
 var upload_status = document.getElementById('upload_status');
 var progress_bar = document.getElementById('progress_bar');
 
 if (file_input) {
-  file_input.addEventListener('change', function(event) {
+  file_input.addEventListener('change', function() {
     content_type_input.value = file_input.files[0].type || 'application/octet-stream';
     var formData = new FormData(upload_form);
     var xhr = new XMLHttpRequest();
@@ -18,10 +18,10 @@ if (file_input) {
       }
     });
 
-    xhr.addEventListener('loadend', function(event) {
+    xhr.addEventListener('loadend', function() {
       upload_status.innerHTML = 'Upload Complete';
       var s3_key = document.getElementsByName('key')[0].value.split('/')[0] + '/' + file_input.files[0].name;
-      var s3_bucket = upload_form.action.split('://')[1].split('.')[0]
+      var s3_bucket = upload_form.action.split('://')[1].split('.')[0];
       window.location.search = 'key=' + s3_key + '&bucket=' + s3_bucket;
     });
 
