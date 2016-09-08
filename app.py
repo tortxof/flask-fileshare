@@ -42,7 +42,7 @@ def gen_signed_post(s3_client):
     )
 
 @app.route('/')
-def upload():
+def index():
     args = request.args.to_dict()
     s3 = get_s3_client()
     post = gen_signed_post(s3)
@@ -51,6 +51,12 @@ def upload():
         200,
         {'Access-Control-Allow-Origin': '*'}
     )
+
+@app.route('/signed-post')
+def upload():
+    s3 = get_s3_client()
+    post = gen_signed_post(s3)
+    return jsonify(post=post)
 
 @app.route('/list')
 def list_objects():
