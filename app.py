@@ -2,7 +2,7 @@ import os
 import base64
 import operator
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import boto3
 
 app = Flask(__name__)
@@ -61,20 +61,17 @@ def list_objects():
     objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
     objects = [
         {
-            'key': obj['Key'],
+            'bucket': app.config['S3_BUCKET'],
+            's3key': obj['Key'],
             'size': obj['Size'],
             'content_type': s3.head_object(
                 Bucket = app.config['S3_BUCKET'],
-                Key = obj['Key']
-                ).get('ContentType')
+                Key = obj['Key'],
+            ).get('ContentType'),
         }
         for obj in objects
     ]
-    return render_template(
-        'list.html',
-        bucket=app.config['S3_BUCKET'],
-        objects=objects
-    )
+    return jsonify(s3Objects=objects)
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0')
