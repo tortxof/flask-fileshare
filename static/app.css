@@ -69,6 +69,6 @@ progress {
   display: block;
 }
 
-#file_input {
+input[type=file] {
   width: 100%;
 }
