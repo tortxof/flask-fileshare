@@ -47,7 +47,11 @@ const App = React.createClass({
 
 const Upload = React.createClass({
   render() {
-    return <div>Upload Component</div>
+    return (
+      <div>
+        <input type='file' name='file' />
+      </div>
+    )
   }
 })
 
