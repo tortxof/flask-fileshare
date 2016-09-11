@@ -1,5 +1,6 @@
 import React from 'react'
 import Clipboard from 'clipboard'
+import filesize from 'filesize'
 
 const S3Object = ({
   bucket,
@@ -9,16 +10,16 @@ const S3Object = ({
 }) => {
   return (
     <div>
-      <a href={'https://s3.amazonaws.com/' + bucket + '/' + s3key}>
+      <a href={`https://s3.amazonaws.com/${bucket}/${s3key}`}>
         {s3key}
       </a>
       <button
         className='clip-button'
-        data-clipboard-text={'https://s3.amazonaws.com/' + bucket + '/' + s3key}
+        data-clipboard-text={`https://s3.amazonaws.com/${bucket}/${s3key}`}
       >
         Copy Link
       </button>
-      <div className='filesize'>Size: {size}</div>
+      <div className='filesize'>Size: {filesize(size)}</div>
       <div className='filetype'>Type: {contentType}</div>
     </div>
   )
