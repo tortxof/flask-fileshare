@@ -59,10 +59,8 @@ progress {
   margin: 1em auto;
 }
 
-.upload-button {
-  display: block;
-  margin: 1em 0;
-  width: 100%;
+.upload-progress {
+  margin: 1em 0
 }
 
 .clip-button {

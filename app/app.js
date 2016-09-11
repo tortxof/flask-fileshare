@@ -1,7 +1,48 @@
 import React from 'react'
 import Nav from './nav'
+import filesize from 'filesize'
 
 export default React.createClass({
+  handleUpload(file) {
+    fetch('/signed-post')
+    .then(response => {
+      response.json().then(json => {
+        const formData = new FormData()
+        const key = json.post.fields.key.split('/')[0] + '/' + file.name
+        Object.keys(json.post.fields).forEach(field => {
+          formData.set(field, json.post.fields[field])
+        })
+        formData.set('Content-Type', file.type)
+        formData.set('file', file)
+        const xhr = new XMLHttpRequest()
+
+        xhr.upload.addEventListener('progress', event => {
+          if (event.lengthComputable) {
+            this.setState(previousState => {
+              previousState.uploads[key] = {filename: file.name, loaded: event.loaded, total: event.total}
+              return previousState
+            })
+          }
+        })
+
+        xhr.addEventListener('loadend', () => {
+          console.log('Upload Complete', `${json.post.url}${key}`)
+          this.setState(previousState => {
+            previousState.uploads[key] = {
+              filename: (<a href={`${json.post.url}${key}`} target='_blank'>{file.name}</a>),
+              loaded: 1,
+              total: 1
+            }
+          })
+        })
+
+        xhr.open('POST', json.post.url, true)
+
+        xhr.send(formData)
+
+      })
+    })
+  },
   updateS3Objects() {
     fetch('/list')
     .then(response => response.json())
@@ -12,7 +53,7 @@ export default React.createClass({
     })
   },
   getInitialState() {
-    return {s3Objects: []}
+    return {s3Objects: [], uploads: {}}
   },
   componentDidMount() {
     this.updateS3Objects()
@@ -26,7 +67,9 @@ export default React.createClass({
             this.props.children,
             {
               s3Objects: this.state.s3Objects,
-              updateS3Objects: this.updateS3Objects
+              uploads: this.state.uploads,
+              updateS3Objects: this.updateS3Objects,
+              handleUpload: this.handleUpload
             }
           )}
         </div>
