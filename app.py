@@ -45,14 +45,7 @@ def gen_signed_post(s3_client):
 @app.route('/upload')
 @app.route('/list')
 def index():
-    args = request.args.to_dict()
-    s3 = get_s3_client()
-    post = gen_signed_post(s3)
-    return (
-        render_template('upload.html', post=post, args=args),
-        200,
-        {'Access-Control-Allow-Origin': '*'}
-    )
+    return render_template('layout.html')
 
 @app.route('/signed-post')
 def upload():
