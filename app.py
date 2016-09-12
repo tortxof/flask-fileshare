@@ -59,6 +59,8 @@ def list_objects():
     objects = s3.list_objects_v2(
         Bucket = app.config['S3_BUCKET'],
     ).get('Contents')
+    if not objects:
+        return jsonify(s3Objects=[])
     objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
     objects = [
         {
