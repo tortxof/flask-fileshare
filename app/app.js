@@ -44,7 +44,7 @@ export default React.createClass({
     })
   },
   updateS3Objects() {
-    fetch('/list')
+    fetch('/list.json')
     .then(response => response.json())
     .then(json => {
       this.setState({
