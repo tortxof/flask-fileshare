@@ -35,10 +35,15 @@ export default React.createClass({
     this.state.clipboard.destroy()
   },
   getInitialState() {
-    return {clipboard: null}
+    return {clipboard: null, listDisplayCount: 4}
+  },
+  showMore() {
+    this.setState({listDisplayCount: this.state.listDisplayCount + 4})
   },
   render() {
-    const s3ObjectListItems = this.props.s3Objects.map(obj => {
+    const s3ObjectListItems = this.props.s3Objects
+    .slice(0, this.state.listDisplayCount)
+    .map(obj => {
       return (
         <li>
           <S3Object
@@ -51,9 +56,12 @@ export default React.createClass({
       )
     })
     return (
-      <ul>
-        {s3ObjectListItems}
-      </ul>
+      <div>
+        <ul>
+          {s3ObjectListItems}
+        </ul>
+        {this.props.s3Objects.length > this.state.listDisplayCount ? (<button onClick={this.showMore}>Show More</button>) : null}
+      </div>
     )
   }
 })
