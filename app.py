@@ -28,7 +28,7 @@ def get_s3_client():
 def gen_signed_post(s3_client):
     return s3_client.generate_presigned_post(
         Bucket = app.config['S3_BUCKET'],
-        Key = base64.urlsafe_b64encode(os.urandom(6)).decode() + '/${filename}',
+        Key = base64.urlsafe_b64encode(os.urandom(3)).decode() + '/${filename}',
         Fields = {
             'acl': 'public-read',
             'success_action_redirect': '{0}/'.format(app.config['APP_URL'])
