@@ -4,7 +4,9 @@ import FileUpload from './file-upload'
 
 export default React.createClass({
   handleChange(event) {
-    this.props.handleUpload(event.target.files[0])
+    for (let i = 0; i < event.target.files.length; i++) {
+      this.props.handleUpload(event.target.files[i])
+    }
     event.target.value = ''
   },
   render() {
@@ -19,7 +21,7 @@ export default React.createClass({
     })
     return (
       <div>
-        <input type='file' name='file' onChange={this.handleChange} />
+        <input type='file' name='file' onChange={this.handleChange} multiple />
         {uploads}
       </div>
     )

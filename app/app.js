@@ -26,7 +26,6 @@ export default React.createClass({
         })
 
         xhr.addEventListener('loadend', () => {
-          console.log('Upload Complete', `${json.post.url}${key}`)
           this.setState(previousState => {
             previousState.uploads[key] = {
               filename: (<a href={`${json.post.url}${key}`} target='_blank'>{file.name}</a>),
