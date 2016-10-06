@@ -33,6 +33,7 @@ export default React.createClass({
               total: 1
             }
           })
+          this.updateS3Objects()
         })
 
         xhr.open('POST', json.post.url, true)
