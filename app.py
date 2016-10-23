@@ -47,6 +47,13 @@ def gen_signed_post(s3_client):
 def index():
     return render_template('layout.html')
 
+@app.route('/legacy')
+def legacy_upload():
+    args = request.args.to_dict()
+    s3 = get_s3_client()
+    post = gen_signed_post(s3)
+    return render_template('legacy.html', post=post, args=args)
+
 @app.route('/signed-post')
 def upload():
     s3 = get_s3_client()
