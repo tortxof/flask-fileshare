@@ -25,13 +25,16 @@ def get_s3_client():
         aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
     )
 
-def gen_signed_post(s3_client):
+def gen_signed_post(s3_client, redirect_path='/'):
     return s3_client.generate_presigned_post(
         Bucket = app.config['S3_BUCKET'],
         Key = base64.urlsafe_b64encode(os.urandom(3)).decode() + '/${filename}',
         Fields = {
             'acl': 'public-read',
-            'success_action_redirect': '{0}/'.format(app.config['APP_URL'])
+            'success_action_redirect': '{0}{1}'.format(
+                app.config['APP_URL'],
+                redirect_path,
+            )
         },
         Conditions = [
             {'acl': 'public-read'},
@@ -51,7 +54,7 @@ def index():
 def legacy_upload():
     args = request.args.to_dict()
     s3 = get_s3_client()
-    post = gen_signed_post(s3)
+    post = gen_signed_post(s3, redirect_path='/legacy')
     return render_template('legacy.html', post=post, args=args)
 
 @app.route('/signed-post')
