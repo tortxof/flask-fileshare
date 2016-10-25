@@ -20,6 +20,7 @@
     "babel-polyfill": "^6.13.0",
     "babel-preset-es2015": "^6.14.0",
     "babel-preset-react": "^6.11.1",
+    "babel-preset-stage-3": "^6.17.0",
     "clipboard": "^1.5.12",
     "filesize": "^3.3.0",
     "react": "^15.3.1",

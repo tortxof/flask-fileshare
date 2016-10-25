@@ -25,20 +25,38 @@ def get_s3_client():
         aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
     )
 
-def gen_signed_post(s3_client, redirect_path='/'):
+def gen_signed_post(s3_client, redirect_path=None):
+    if redirect_path:
+        success_action_field = {
+            'success_action_redirect': '{0}{1}'.format(
+                app.config['APP_URL'],
+                redirect_path,
+            )
+        }
+        success_action_condition = [
+            'starts-with',
+            '$success_action_redirect',
+            app.config['APP_URL']
+        ]
+    else:
+        success_action_field = {
+            'success_action_status': '204'
+        }
+        success_action_condition = [
+            'starts-with',
+            '$success_action_status',
+            '204'
+        ]
     return s3_client.generate_presigned_post(
         Bucket = app.config['S3_BUCKET'],
         Key = base64.urlsafe_b64encode(os.urandom(3)).decode() + '/${filename}',
         Fields = {
             'acl': 'public-read',
-            'success_action_redirect': '{0}{1}'.format(
-                app.config['APP_URL'],
-                redirect_path,
-            )
+            **success_action_field
         },
         Conditions = [
             {'acl': 'public-read'},
-            ['starts-with', '$success_action_redirect', app.config['APP_URL']],
+            success_action_condition,
             ['starts-with', '$Content-Type', ''],
         ],
         ExpiresIn = 600

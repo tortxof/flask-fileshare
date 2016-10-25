@@ -18,20 +18,23 @@ export default React.createClass({
 
         xhr.upload.addEventListener('progress', event => {
           if (event.lengthComputable) {
-            this.setState(previousState => {
-              previousState.uploads[key] = {filename: file.name, loaded: event.loaded, total: event.total}
-              return previousState
+            this.setState({
+              uploads: {...this.state.uploads, [key]: {
+                filename: file.name,
+                loaded: event.loaded,
+                total: event.total
+              }}
             })
           }
         })
 
-        xhr.addEventListener('loadend', () => {
-          this.setState(previousState => {
-            previousState.uploads[key] = {
+        xhr.addEventListener('load', () => {
+          this.setState({
+            uploads: {...this.state.uploads, [key]: {
               filename: (<a href={`${json.post.url}${key}`} target='_blank'>{file.name}</a>),
               loaded: 1,
               total: 1
-            }
+            }}
           })
           this.updateS3Objects()
         })
