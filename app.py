@@ -15,8 +15,8 @@ app.config['APP_URL'] = os.environ.get('APP_URL')
 
 app.config['S3_BUCKET'] = os.environ.get('S3_BUCKET')
 
-app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('AWS_ACCESS_KEY_ID')
-app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('AWS_SECRET_ACCESS_KEY')
+app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('APP_AWS_ACCESS_KEY_ID')
+app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('APP_AWS_SECRET_ACCESS_KEY')
 
 def get_s3_client():
     return boto3.client(
