@@ -3,6 +3,7 @@ import base64
 import operator
 
 from flask import Flask, render_template, request, jsonify
+from flask_s3 import FlaskS3
 import boto3
 
 app = Flask(__name__)
@@ -15,8 +16,13 @@ app.config['APP_URL'] = os.environ.get('APP_URL')
 
 app.config['S3_BUCKET'] = os.environ.get('S3_BUCKET')
 
+app.config['FLASKS3_BUCKET_NAME'] = os.environ.get('FLASKS3_BUCKET_NAME')
+app.config['FLASKS3_DEBUG'] = os.environ.get('FLASKS3_DEBUG', 'false').lower() == 'true'
+
 app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('APP_AWS_ACCESS_KEY_ID')
 app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('APP_AWS_SECRET_ACCESS_KEY')
+
+s3 = FlaskS3(app)
 
 def get_s3_client():
     return boto3.client(
