@@ -26,8 +26,6 @@ example.
     },
     "aws_environment_variables": {
       "S3_BUCKET": "file-upload-bucket",
-      "APP_AWS_ACCESS_KEY_ID": "XXXXXXXXXXXXXXXXXXXX",
-      "APP_AWS_SECRET_ACCESS_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "SECRET_KEY": "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX",
       "APP_URL": "https://file.example.com",
       "FLASKS3_BUCKET_NAME": "static-assets-bucket",

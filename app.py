@@ -20,9 +20,6 @@ app.config['FLASKS3_BUCKET_NAME'] = os.environ.get('FLASKS3_BUCKET_NAME')
 app.config['FLASKS3_DEBUG'] = os.environ.get('FLASKS3_DEBUG', 'false').lower() == 'true'
 app.config['FLASKS3_GZIP'] = True
 
-app.config['AWS_ACCESS_KEY_ID'] = os.environ.get('APP_AWS_ACCESS_KEY_ID')
-app.config['AWS_SECRET_ACCESS_KEY'] = os.environ.get('APP_AWS_SECRET_ACCESS_KEY')
-
 s3 = FlaskS3(app)
 
 def upload_static(zappa_settings):
@@ -30,11 +27,7 @@ def upload_static(zappa_settings):
     create_all(app)
 
 def get_s3_client():
-    return boto3.client(
-        's3',
-        aws_access_key_id = app.config['AWS_ACCESS_KEY_ID'],
-        aws_secret_access_key = app.config['AWS_SECRET_ACCESS_KEY']
-    )
+    return boto3.client('s3')
 
 def gen_signed_post(s3_client, redirect_path=None):
     if redirect_path:
