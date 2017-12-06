@@ -1,14 +1,20 @@
 import React from 'react'
 
-import FileUpload from './file-upload'
+import { FileUpload } from './file-upload'
 
-export default React.createClass({
+class Upload extends React.Component {
+  constructor(props) {
+    super(props)
+    this.handleChange = this.handleChange.bind(this)
+  }
+
   handleChange(event) {
     for (let i = 0; i < event.target.files.length; i++) {
       this.props.handleUpload(event.target.files[i])
     }
     event.target.value = ''
-  },
+  }
+
   render() {
     const uploads = Object.keys(this.props.uploads).map(key => {
       return (
@@ -21,9 +27,11 @@ export default React.createClass({
     })
     return (
       <div>
-        <input type='file' name='file' onChange={this.handleChange} multiple />
+        <input type="file" name="file" onChange={this.handleChange} multiple />
         {uploads}
       </div>
     )
   }
-})
+}
+
+export { Upload }
