@@ -7,7 +7,8 @@ const S3Object = ({ bucket, s3key, size, contentType }) => (
     <a href={`https://s3.amazonaws.com/${bucket}/${s3key}`}>{s3key}</a>
     <button
       className="clip-button"
-      data-clipboard-text={`https://s3.amazonaws.com/${bucket}/${s3key}`}>
+      data-clipboard-text={`https://s3.amazonaws.com/${bucket}/${s3key}`}
+    >
       Copy Link
     </button>
     <div className="filesize">Size: {filesize(size)}</div>
@@ -43,7 +44,7 @@ class S3ObjectList extends React.Component {
           {this.props.s3Objects
             .slice(0, this.state.listDisplayCount)
             .map(obj => (
-              <li>
+              <li key={`${obj.bucket}/${obj.s3key}`}>
                 <S3Object
                   bucket={obj.bucket}
                   s3key={obj.s3key}

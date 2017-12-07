@@ -19,6 +19,7 @@ class Upload extends React.Component {
     const uploads = Object.keys(this.props.uploads).map(key => {
       return (
         <FileUpload
+          key={key}
           filename={this.props.uploads[key].filename}
           loaded={this.props.uploads[key].loaded}
           total={this.props.uploads[key].total}
