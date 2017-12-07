@@ -1,4 +1,0 @@
-flask
-boto3
-flask-s3
-zappa
