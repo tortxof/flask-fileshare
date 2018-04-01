@@ -28,7 +28,12 @@ class Upload extends React.Component {
     });
     return (
       <div>
-        <input type="file" name="file" onChange={this.handleChange} multiple />
+        <input
+          type="file"
+          name="file"
+          onChange={e => this.handleChange(e)}
+          multiple
+        />
         {uploads}
       </div>
     );
