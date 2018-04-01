@@ -18,15 +18,18 @@
       <button type="submit">Upload</button>
     </form>
 
-    {% if args %}
-    <p>
-      <a href="https://s3.amazonaws.com/{{ args.bucket }}/{{ args.key|urlencode() }}">
-        {{ args.key|urlencode() }}
-      </a>
-    </p>
+    {% if s3Objects %}
+    <ul>
+      {% for s3Object in s3Objects %}
+      <li>
+        <a href="https://s3.amazonaws.com/{{s3Object.bucket}}/{{s3Object.s3key}}">
+          {{s3Object.s3key}}
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
     {% endif %}
 
-    <p>Files are deleted after 28 days.</p>
   </div>
 </body>
 </html>

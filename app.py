@@ -74,10 +74,24 @@ def index():
 
 @app.route('/legacy')
 def legacy_upload():
-    args = request.args.to_dict()
     s3 = get_s3_client()
     post = gen_signed_post(s3, redirect_path='/legacy')
-    return render_template('legacy.html', post=post, args=args)
+    objects = s3.list_objects_v2(
+        Bucket = app.config['S3_BUCKET'],
+    ).get('Contents')
+    objects.sort(key=operator.itemgetter('LastModified'), reverse=True)
+    objects = [
+        {
+            'bucket': app.config['S3_BUCKET'],
+            's3key': obj['Key'],
+        }
+        for obj in objects
+    ]
+    return render_template(
+        'legacy.html',
+        post = post,
+        s3Objects = objects,
+    )
 
 @app.route('/signed-post')
 def upload():
